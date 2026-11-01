@@ -16,11 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const kVersion = '1.3.0';
+const kVersion = '1.4.0';
 
 const kParameterMix        = 0;
 const kParameterSize       = 1;
 const kParameterBrightness = 2;
+const kParameterMod = 3;
 
 class CastelloReverbUI extends DISTRHO.UI {
 
@@ -34,6 +35,7 @@ class CastelloReverbUI extends DISTRHO.UI {
         this._connect(this._knobMix, kParameterMix, formatAsPercentage);        
         this._connect(this._knobSize, kParameterSize, formatAsPercentage);
         this._connect(this._knobBrightness, kParameterBrightness, formatAsPercentage);
+        this._connect(this._knobMod, kParameterMod, formatAsPercentage);
 
         const resize = document.querySelector('g-resize');
 
@@ -79,6 +81,9 @@ class CastelloReverbUI extends DISTRHO.UI {
             case kParameterBrightness:
                 this._knobBrightness.value = value;
                 break;
+            case kParameterMod:
+                this._knobMod.value = value;
+                break;
         }
     }
 
@@ -120,6 +125,9 @@ class CastelloReverbUI extends DISTRHO.UI {
 
     get _knobBrightness() {
         return document.querySelector('#p-brightness g-knob');
+    }
+    get _knobMod() {
+        return document.querySelector('#p-mod g-knob');
     }
 
 }

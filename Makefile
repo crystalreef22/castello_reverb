@@ -12,7 +12,7 @@ NAME = CastelloReverb
 # --------------------------------------------------------------
 # Project version, used for generating unique symbol names
 
-DPF_WEBUI_PROJECT_VERSION = 3
+DPF_WEBUI_PROJECT_VERSION = 4
 
 # --------------------------------------------------------------
 # Automatically inject dpf.js

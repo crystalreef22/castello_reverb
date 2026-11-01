@@ -35,14 +35,15 @@ START_NAMESPACE_DISTRHO
 enum ParameterIndex {
     kParameterMix,
     kParameterSize,
-    kParameterBrightness
+    kParameterBrightness,
+    kParameterMod
 };
 
 class CastelloReverbPlugin : public Plugin
 {
 public:
     CastelloReverbPlugin()
-        : Plugin(3 /*parameters*/, 0 /*programs*/, 1 /*states*/)
+        : Plugin(4 /*parameters*/, 0 /*programs*/, 1 /*states*/)
         , fSoundpipe(0)
         , fReverb(0)
         , fMix(0)
@@ -75,7 +76,7 @@ public:
 
     uint32_t getVersion() const override
     {
-        return d_version(1, 3, 0);
+        return d_version(1, 4, 0);
     }
 
     int64_t getUniqueId() const override
@@ -110,6 +111,13 @@ public:
             parameter.ranges.max = 1.f;
             parameter.ranges.def = 0.66f;
             break;
+        case kParameterMod:
+            parameter.name = "Mod";
+            parameter.symbol = "mod";
+            parameter.ranges.min = 0.f;
+            parameter.ranges.max = 2.f;
+            parameter.ranges.def = 1.00f;
+            break;
         }
 
         setParameterValue(index, parameter.ranges.def);
@@ -125,6 +133,8 @@ public:
             return (fReverb->feedback - 0.5f) * 2.f;
         case kParameterBrightness:
             return (log(fReverb->lpfreq) - LOG_400) / (LOG_10000 - LOG_400);
+        case kParameterMod:
+            return fReverb->iPitchMod;
         }
 
         return 0;
@@ -144,6 +154,9 @@ public:
             break;
         case kParameterBrightness:
             fReverb->lpfreq = exp(LOG_400 + (LOG_10000 - LOG_400) * value);
+            break;
+        case kParameterMod:
+            fReverb->iPitchMod = value;
             break;
         }
     }
